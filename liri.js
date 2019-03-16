@@ -1,19 +1,48 @@
+// Configure Files + Set Global Variables
 require("dotenv").config();
+var keys        = require("./keys.js");
+// var spotify     = new Spotify(keys.spotify);
+var axios       = require("axios");
+var command     = process.argv[2];
+var searchTerm  = '';
 
-var keys = require("./keys.js");
-var spotify = new Spotify(keys.spotify);
-var command = process.argv[2];
-
-// Make it so liri.js can take in one of the following commands:
 
 
-// concert-this
+function createSearchTerm () {
+    for (var i = 3; i < process.argv.length; i++) {
+        searchTerm += process.argv[i] + "%20";
+    }
+}    
 
-// spotify-this-song
+console.log(searchTerm);
+console.log(command);
 
-// movie-this
+createSearchTerm();
 
-// do-what-it-says
+var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+
+
+switch (command) {
+    case "concert-this":
+        console.log(bandsUrl);
+        axios   
+            .get(bandsUrl)
+            .then(function (response) {
+
+        });
+        break;
+    case "spotify-this-song":
+
+        break;
+    case "movie-this":
+
+        break;
+    case "do-what-it-says":
+
+        break;
+}
+
+
 // What Each Command Should Do
 // node liri.js concert-this <artist/band name here>
 
