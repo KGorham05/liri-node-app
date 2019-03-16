@@ -1,22 +1,43 @@
-// Configure Files + Set Global Variables
 require("dotenv").config();
-var keys        = require("./keys.js");
-// var spotify     = new Spotify(keys.spotify);
-var axios       = require("axios");
-var command     = process.argv[2];
-var searchTerm  = '';
+var keys = require("./keys.js");
+var moment = require('moment');
+var axios = require("axios");
+// var spotify          = new Spotify(keys.spotify);
+var command = process.argv[2];
+var searchTerm = '';
+var date = '';
 
-
-
-function createSearchTerm () {
+var createSearchTerm = function () {
     for (var i = 3; i < process.argv.length; i++) {
-        searchTerm += process.argv[i] + "%20";
+        searchTerm += process.argv[i];
     }
-}    
+    console.log(searchTerm);
+}
 
-console.log(searchTerm);
+var concertThis = function () {
+    console.log(bandsUrl);
+    axios
+        .get(bandsUrl)
+        .then(function (response) {
+            for (var i = 0; i < response.data.length; i++) {
+                // name of the venue
+                console.log("Venue name: " + response.data[i].venue.name);
+                // venue location
+                console.log("Location: " + response.data[i].venue.city + " " + response.data[i].venue.region + " " + response.data[i].venue.country);
+                // date formatted with moment.js
+                var timeString = response.data[i].datetime;
+                var date = timeString.substr(0, 10);
+                var dateFormatted = moment(date, "YYYY-MM-DD").format("MM/DD/YYYY")
+                console.log(dateFormatted);
+            }
+
+        });
+}
+
+
 console.log(command);
 
+moment().format();
 createSearchTerm();
 
 var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
@@ -24,12 +45,7 @@ var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?a
 
 switch (command) {
     case "concert-this":
-        console.log(bandsUrl);
-        axios   
-            .get(bandsUrl)
-            .then(function (response) {
-
-        });
+        concertThis();
         break;
     case "spotify-this-song":
 
