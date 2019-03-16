@@ -1,20 +1,18 @@
 require("dotenv").config();
-var keys = require("./keys.js");
-var moment = require('moment');
-var axios = require("axios");
+var keys                = require("./keys.js");
+var moment              = require('moment');
+var axios               = require("axios");
 // var spotify          = new Spotify(keys.spotify);
-var command = process.argv[2];
-var searchTerm = '';
-var date = '';
-
-var createSearchTerm = function () {
+var command             = process.argv[2];
+var searchTerm          = '';
+var date                = '';
+var createSearchTerm    = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchTerm += process.argv[i];
     }
     console.log(searchTerm);
-}
-
-var concertThis = function () {
+};
+var concertThis         = function () {
     console.log(bandsUrl);
     axios
         .get(bandsUrl)
@@ -32,44 +30,8 @@ var concertThis = function () {
             }
 
         });
-}
-
-
-console.log(command);
-
-moment().format();
-createSearchTerm();
-
-var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
-
-
-switch (command) {
-    case "concert-this":
-        concertThis();
-        break;
-    case "spotify-this-song":
-
-        break;
-    case "movie-this":
-
-        break;
-    case "do-what-it-says":
-
-        break;
-}
-
-
-// What Each Command Should Do
-// node liri.js concert-this <artist/band name here>
-
-// This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
-
-// Name of the venue
-
-// Venue location
-
-// Date of the Event (use moment to format this as "MM/DD/YYYY")
-
+};
+var spotifyThis         = function () {
 // node liri.js spotify-this-song '<song name here>'
 
 // This will show the following information about the song in your terminal/bash window
@@ -95,6 +57,41 @@ switch (command) {
 // Step Three: Once logged in, navigate to https://developer.spotify.com/my-applications/#!/applications/create to register a new application to be used with the Spotify API. You can fill in whatever you'd like for these fields. When finished, click the "complete" button.
 
 // Step Four: On the next screen, scroll down to where you see your client id and client secret. Copy these values down somewhere, you'll need them to use the Spotify API and the node-spotify-api package.
+};
+// var movieThis           = function () {};
+// var doIt                = function () {};
+
+
+
+console.log(command);
+
+moment().format();
+createSearchTerm();
+
+var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+
+
+switch (command) {
+    case "concert-this":
+        concertThis();
+        break;
+    case "spotify-this-song":
+        spotifyThis();
+        break;
+    case "movie-this":
+        movieThis();
+        break;
+    case "do-what-it-says":
+        doIt();
+        break;
+    default: 
+        console.log("Input is in incorrect format");
+};
+
+
+// What Each Command Should Do
+
+
 
 // node liri.js movie-this '<movie name here>'
 
