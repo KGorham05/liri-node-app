@@ -1,15 +1,16 @@
-require("dotenv").config();
-var keys = require("./keys.js");
-var moment = require('moment');
-var axios = require("axios");
-var Spotify = require('node-spotify-api')
-var spotify = new Spotify(keys.spotify);
-var command = process.argv[2];
-var searchTerm = '';
+                   require("dotenv").config();
+var fs           = require("fs");
+var keys         = require("./keys.js");
+var moment       = require('moment');
+var axios        = require("axios");
+var Spotify      = require('node-spotify-api')
+var spotify      = new Spotify(keys.spotify);
+var command      = process.argv[2];
+var searchTerm   = '';
 var searchSpaced = '';
-var date = '';
+var date         = '';
 
-var logMovieData = function (response) {
+var logMovieData            = function (response) {
     console.log("-------------------- Response --------------------");
     console.log("Title: " + response.data.Title);
     console.log("Year released: " + response.data.Year);
@@ -21,19 +22,19 @@ var logMovieData = function (response) {
     console.log("Actors: " + response.data.Actors);
     console.log("----------------------- End ----------------------")
 };
-var createSearchTerm = function () {
+var createSearchTerm        = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchTerm += process.argv[i];
     }
     console.log(searchTerm);
 };
-var createSearchTermSpaced = function () {
+var createSearchTermSpaced  = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchSpaced += process.argv[i] + " ";
     }
     console.log(searchSpaced);
 };
-var concertThis = function () {
+var concertThis             = function () {
     console.log(bandsUrl);
     axios
         .get(bandsUrl)
@@ -54,9 +55,9 @@ var concertThis = function () {
             console.log("----------------------- End ----------------------")
         });
 };
-var spotifyThis = function () {
+var spotifyThis             = function () {
     // node liri.js spotify-this-song '<song name here>'
-    if (process.argv[3]) {
+    if (searchSpaced) {
         spotify.search({ type: 'track', query: searchSpaced, limit: 10 }, function (err, data) {
             if (err) {
                 return console.log('Error occurred: ' + err);
@@ -86,9 +87,9 @@ var spotifyThis = function () {
         });
     };
 };
-var movieThis = function () {
+var movieThis               = function () {
     // node liri.js movie-this '<movie name here>'
-    if (process.argv[3]) {
+    if (searchTerm) {
         axios
             .get(movieUrl)
             .then(function (response) {
@@ -104,16 +105,47 @@ var movieThis = function () {
     };
 
 };
-// var doIt                = function () {};
+var doIt                    = function () {
+    // node liri.js do-what-it-says
+    // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
-console.log(command);
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            console.log(error);
+        }
+        var dataArr = data.split(",");
+        var val = dataArr[1];
+        command = dataArr[0];
+        searchSpaced = val.substring(1, (val.length - 1));
+        searchTerm = searchSpaced.replace(/\s/g, '');
+        movieUrl = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced;
+        bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+
+        switch (command) {
+            case "concert-this":
+                concertThis();
+                break;
+            case "spotify-this-song":
+                spotifyThis();
+                break;
+            case "movie-this":
+                movieThis();
+                break;
+            case "do-what-it-says":
+                doIt();
+                break;
+            default:
+                console.log("Input is in incorrect format");
+        };
+    });
+};
 
 moment().format();
 createSearchTerm();
 createSearchTermSpaced();
 
-var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
-var movieUrl = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced
+var bandsUrl    = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+var movieUrl    = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced
 var mrNobodyUrl = "http://www.omdbapi.com/?apikey=trilogy&t=mr.nobody"
 
 switch (command) {
@@ -134,14 +166,3 @@ switch (command) {
 };
 
 
-
-
-// You'll use the axios package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.
-
-// node liri.js do-what-it-says
-
-// Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-
-// It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
-
-// Edit the text in random.txt to test out the feature for movie-this and concert-this.
