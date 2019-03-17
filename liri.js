@@ -69,6 +69,7 @@ var spotifyThis             = function () {
                 console.log("Song Name: " + data.tracks.items[i].name);
                 console.log("Preview Url: " + data.tracks.items[i].preview_url);
                 console.log("Album Name: " + data.tracks.items[i].album.name);
+                console.log("--------------------------------------------------")
             }
             console.log("----------------------- End ----------------------")
         });
@@ -139,6 +140,7 @@ var doIt                    = function () {
         };
     });
 };
+
 
 moment().format();
 createSearchTerm();
