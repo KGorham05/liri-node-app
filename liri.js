@@ -43,26 +43,41 @@ var concertThis = function () {
 };
 var spotifyThis = function () {
     // node liri.js spotify-this-song '<song name here>'
-    spotify.search({ type: 'track', query: searchSpaced, limit: 1 }, function (err, data) {
-        if (err) {
-            return console.log('Error occurred: ' + err);
-        }
-        // This will show the following information about the song in your terminal/bash window
-        console.log("-------------------- Response --------------------")
-        // Artist(s)   
-        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
-        // The song's name
-        console.log("Song Name: " + data.tracks.items[0].name);
-        // A preview link of the song from Spotify
-        console.log("Preview Url: " + data.tracks.items[0].preview_url);
-        // The album that the song is from
-        console.log("Album Name: " + data.tracks.items[0].album.name);
-        console.log("----------------------- End ----------------------")
-    });
+    if (process.argv[3]) {
+        spotify.search({ type: 'track', query: searchSpaced, limit: 10 }, function (err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            };
+            console.log("-------------------- Response --------------------")
+            for (var i = 0; i < data.tracks.items.length; i++) {
+                // This will show the following information about the song in your terminal/bash window
+                console.log("Artist: " + data.tracks.items[i].album.artists[0].name);
+                console.log("Song Name: " + data.tracks.items[i].name);
+                console.log("Preview Url: " + data.tracks.items[i].preview_url);
+                console.log("Album Name: " + data.tracks.items[i].album.name);
+            }
+            console.log("----------------------- End ----------------------")
+        });
+    } else {
+        // If no song is provided then your program will default to "The Sign" by Ace of Base.
+        spotify.search({ type: 'track', query: "The Sign", limit: 8 }, function (err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+            console.log("-------------------- Response --------------------")
+            console.log("Artist: " + data.tracks.items[7].album.artists[0].name);
+            console.log("Song Name: " + data.tracks.items[7].name);
+            console.log("Preview Url: " + data.tracks.items[7].preview_url);
+            console.log("Album Name: " + data.tracks.items[7].album.name);
+            console.log("----------------------- End ----------------------")
+        });
+    };
 
 
 
-    // If no song is provided then your program will default to "The Sign" by Ace of Base.
+
+
+
 
 
 
