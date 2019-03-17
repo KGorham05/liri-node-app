@@ -1,62 +1,71 @@
 require("dotenv").config();
-var keys                = require("./keys.js");
-var moment              = require('moment');
-var axios               = require("axios");
-// var spotify          = new Spotify(keys.spotify);
-var command             = process.argv[2];
-var searchTerm          = '';
-var date                = '';
-var createSearchTerm    = function () {
+var keys = require("./keys.js");
+var moment = require('moment');
+var axios = require("axios");
+var Spotify = require('node-spotify-api')
+var spotify = new Spotify(keys.spotify);
+var command = process.argv[2];
+var searchTerm = '';
+var searchSpaced = '';
+var date = '';
+var createSearchTerm = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchTerm += process.argv[i];
     }
     console.log(searchTerm);
 };
-var concertThis         = function () {
+var createSearchTermSpaced = function () {
+    for (var i = 3; i < process.argv.length; i++) {
+        searchSpaced += process.argv[i] + " ";
+    }
+    console.log(searchSpaced);
+};
+var concertThis = function () {
     console.log(bandsUrl);
     axios
         .get(bandsUrl)
         .then(function (response) {
+            console.log("-------------------- Response --------------------")
             for (var i = 0; i < response.data.length; i++) {
-                // name of the venue
-                console.log("Venue name: " + response.data[i].venue.name);
-                // venue location
-                console.log("Location: " + response.data[i].venue.city + " " + response.data[i].venue.region + " " + response.data[i].venue.country);
                 // date formatted with moment.js
                 var timeString = response.data[i].datetime;
                 var date = timeString.substr(0, 10);
                 var dateFormatted = moment(date, "YYYY-MM-DD").format("MM/DD/YYYY")
+                // name of the venue
+                console.log("Venue name: " + response.data[i].venue.name);
+                // venue location
+                console.log("Location: " + response.data[i].venue.city + " " + response.data[i].venue.region + " " + response.data[i].venue.country);
+                // date formatted MM/DD/YYYY
                 console.log(dateFormatted);
             }
-
+            console.log("----------------------- End ----------------------")
         });
 };
-var spotifyThis         = function () {
-// node liri.js spotify-this-song '<song name here>'
+var spotifyThis = function () {
+    // node liri.js spotify-this-song '<song name here>'
+    spotify.search({ type: 'track', query: searchSpaced, limit: 1 }, function (err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+        // This will show the following information about the song in your terminal/bash window
+        console.log("-------------------- Response --------------------")
+        // Artist(s)   
+        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+        // The song's name
+        console.log("Song Name: " + data.tracks.items[0].name);
+        // A preview link of the song from Spotify
+        console.log("Preview Url: " + data.tracks.items[0].preview_url);
+        // The album that the song is from
+        console.log("Album Name: " + data.tracks.items[0].album.name);
+        console.log("----------------------- End ----------------------")
+    });
 
-// This will show the following information about the song in your terminal/bash window
 
-// Artist(s)
 
-// The song's name
+    // If no song is provided then your program will default to "The Sign" by Ace of Base.
 
-// A preview link of the song from Spotify
 
-// The album that the song is from
 
-// If no song is provided then your program will default to "The Sign" by Ace of Base.
-
-// You will utilize the node-spotify-api package in order to retrieve song information from the Spotify API.
-
-// The Spotify API requires you sign up as a developer to generate the necessary credentials. You can follow these steps in order to generate a client id and client secret:
-
-// Step One: Visit https://developer.spotify.com/my-applications/#!/
-
-// Step Two: Either login to your existing Spotify account or create a new one (a free account is fine) and log in.
-
-// Step Three: Once logged in, navigate to https://developer.spotify.com/my-applications/#!/applications/create to register a new application to be used with the Spotify API. You can fill in whatever you'd like for these fields. When finished, click the "complete" button.
-
-// Step Four: On the next screen, scroll down to where you see your client id and client secret. Copy these values down somewhere, you'll need them to use the Spotify API and the node-spotify-api package.
 };
 // var movieThis           = function () {};
 // var doIt                = function () {};
@@ -67,8 +76,10 @@ console.log(command);
 
 moment().format();
 createSearchTerm();
+createSearchTermSpaced();
 
 var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+var movieUrl = ""
 
 
 switch (command) {
@@ -84,7 +95,7 @@ switch (command) {
     case "do-what-it-says":
         doIt();
         break;
-    default: 
+    default:
         console.log("Input is in incorrect format");
 };
 
