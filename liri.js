@@ -72,70 +72,61 @@ var spotifyThis = function () {
             console.log("----------------------- End ----------------------")
         });
     };
-
-
-
-
-
-
-
-
-
 };
-// var movieThis           = function () {};
-// var doIt                = function () {};
+var movieThis = function () {
+    // node liri.js movie-this '<movie name here>'
+    if (process.argv[3]) {
+        axios
+            .get(movieUrl)
+            .then(function (response) {
+                console.log("-------------------- Response --------------------");
+                console.log("Title: " + response.data.Title);
+                console.log("Year released: " + response.data.Year);
+                console.log("IMDB Rating: " + response.data.imdbRating);
+                console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+                console.log("Country produced: " + response.data.Country);
+                console.log("Language: " + response.data.Language)
+                console.log("Plot: " + response.data.Plot);
+                console.log("Actors: " + response.data.Actors);
+                console.log("----------------------- End ----------------------")
+            });
 
-
-
-console.log(command);
-
-moment().format();
-createSearchTerm();
-createSearchTermSpaced();
-
-var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
-var movieUrl = ""
-
-
-switch (command) {
-    case "concert-this":
-        concertThis();
-        break;
-    case "spotify-this-song":
-        spotifyThis();
-        break;
-    case "movie-this":
-        movieThis();
-        break;
-    case "do-what-it-says":
-        doIt();
-        break;
-    default:
-        console.log("Input is in incorrect format");
+        // If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
+        // You'll use the axios package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.
+    };
+    // var doIt                = function () {};
 };
 
 
-// What Each Command Should Do
+    console.log(command);
+
+    moment().format();
+    createSearchTerm();
+    createSearchTermSpaced();
+
+    var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+    var movieUrl = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced
+
+
+    switch (command) {
+        case "concert-this":
+            concertThis();
+            break;
+        case "spotify-this-song":
+            spotifyThis();
+            break;
+        case "movie-this":
+            movieThis();
+            break;
+        case "do-what-it-says":
+            doIt();
+            break;
+        default:
+            console.log("Input is in incorrect format");
+    };
 
 
 
-// node liri.js movie-this '<movie name here>'
-
-// This will output the following information to your terminal/bash window:
-
-//   * Title of the movie.
-//   * Year the movie came out.
-//   * IMDB Rating of the movie.
-//   * Rotten Tomatoes Rating of the movie.
-//   * Country where the movie was produced.
-//   * Language of the movie.
-//   * Plot of the movie.
-//   * Actors in the movie.
-// If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-
-// If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
-
-// It's on Netflix!
 
 // You'll use the axios package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.
 
