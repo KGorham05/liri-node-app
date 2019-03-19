@@ -10,16 +10,7 @@ var searchTerm   = '';
 var searchSpaced = '';
 
 var logMovieData            = function (response) {
-    console.log("-------------------- Response --------------------");
-    console.log("Title: " + response.data.Title);
-    console.log("Year released: " + response.data.Year);
-    console.log("IMDB Rating: " + response.data.imdbRating);
-    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
-    console.log("Country produced: " + response.data.Country);
-    console.log("Language: " + response.data.Language)
-    console.log("Plot: " + response.data.Plot);
-    console.log("Actors: " + response.data.Actors);
-    console.log("----------------------- End ----------------------")
+    console.log("-------------------- Response --------------------\r\nTitle: " + response.data.Title + "\r\nYear released: " + response.data.Year + "\r\nIMDB Rating: " + response.data.imdbRating + "\r\nRotten Tomatoes: " + response.data.Ratings[1].Value + "\r\nCountry produced: " + response.data.Country + "\r\nLanguage: " + response.data.Language + "\r\nPlot: " + response.data.Plot + "\r\nActors: " + response.data.Actors + "\r\n----------------------- End ----------------------" );
 };
 var createSearchTerm        = function () {
     for (var i = 3; i < process.argv.length; i++) {
