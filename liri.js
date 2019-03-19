@@ -8,9 +8,18 @@ var spotify      = new Spotify(keys.spotify);
 var command      = process.argv[2];
 var searchTerm   = '';
 var searchSpaced = '';
+var liriResponse = '';
 
 var logMovieData            = function (response) {
-    console.log("-------------------- Response --------------------\r\nTitle: " + response.data.Title + "\r\nYear released: " + response.data.Year + "\r\nIMDB Rating: " + response.data.imdbRating + "\r\nRotten Tomatoes: " + response.data.Ratings[1].Value + "\r\nCountry produced: " + response.data.Country + "\r\nLanguage: " + response.data.Language + "\r\nPlot: " + response.data.Plot + "\r\nActors: " + response.data.Actors + "\r\n----------------------- End ----------------------" );
+    liriResponse = "-------------------- Response --------------------\r\nTitle: " + response.data.Title + "\r\nYear released: " + response.data.Year + "\r\nIMDB Rating: " + response.data.imdbRating + "\r\nRotten Tomatoes: " + response.data.Ratings[1].Value + "\r\nCountry produced: " + response.data.Country + "\r\nLanguage: " + response.data.Language + "\r\nPlot: " + response.data.Plot + "\r\nActors: " + response.data.Actors + "\r\n----------------------- End ----------------------";
+    console.log(liriResponse);
+    fs.appendFile("log.txt", liriResponse, function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Content added to log.txt")
+        }
+    })
 };
 var createSearchTerm        = function () {
     for (var i = 3; i < process.argv.length; i++) {

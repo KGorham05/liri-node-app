@@ -1,0 +1,10 @@
+-------------------- Response --------------------
+Title: Forrest Gump
+Year released: 1994
+IMDB Rating: 8.8
+Rotten Tomatoes: 72%
+Country produced: USA
+Language: English
+Plot: The presidencies of Kennedy and Johnson, the events of Vietnam, Watergate, and other history unfold through the perspective of an Alabama man with an IQ of 75.
+Actors: Tom Hanks, Rebecca Williams, Sally Field, Michael Conner Humphreys
+----------------------- End ----------------------
