@@ -8,7 +8,6 @@ var spotify      = new Spotify(keys.spotify);
 var command      = process.argv[2];
 var searchTerm   = '';
 var searchSpaced = '';
-var date         = '';
 
 var logMovieData            = function (response) {
     console.log("-------------------- Response --------------------");
