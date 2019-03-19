@@ -69,11 +69,15 @@ var spotifyThis = function () {
             console.log("-------------------- Response --------------------")
             for (var i = 0; i < data.tracks.items.length; i++) {
                 // This will show the following information about the song in your terminal/bash window
-                console.log("Artist: " + data.tracks.items[i].album.artists[0].name);
-                console.log("Song Name: " + data.tracks.items[i].name);
-                console.log("Preview Url: " + data.tracks.items[i].preview_url);
-                console.log("Album Name: " + data.tracks.items[i].album.name);
-                console.log("--------------------------------------------------")
+                liriResponse = "\r\nArtist: " + data.tracks.items[i].album.artists[0].name + "\r\nSong Name: " + data.tracks.items[i].name + "\r\nPreview Url: " + data.tracks.items[i].preview_url + "\r\nAlbum Name: " + data.tracks.items[i].album.name + "\r\n--------------------------------------------------";
+                console.log(liriResponse);
+                fs.appendFile("log.txt", liriResponse, function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Content added to log.txt")
+                    }
+                })
             }
             console.log("----------------------- End ----------------------")
         });
