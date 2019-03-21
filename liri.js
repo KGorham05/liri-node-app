@@ -1,40 +1,40 @@
-require("dotenv").config();
-var fs = require("fs");
-var keys = require("./keys.js");
-var moment = require('moment');
-var axios = require("axios");
-var Spotify = require('node-spotify-api')
-var spotify = new Spotify(keys.spotify);
-var command = process.argv[2];
-var searchTerm = '';
-var searchSpaced = '';
-var liriResponse = '';
+                      require("dotenv").config();
+var fs              = require("fs");
+var keys            = require("./keys.js");
+var moment          = require('moment');
+var axios           = require("axios");
+var Spotify         = require('node-spotify-api')
+var spotify         = new Spotify(keys.spotify);
+var command         = process.argv[2];
+var searchTerm      = '';
+var searchSpaced    = '';
+var liriResponse    = '';
 
 
-var createSearchTerm = function () {
+var createSearchTerm        = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchTerm += process.argv[i];
     }
-    console.log(searchTerm);
+    // console.log(searchTerm);
 };
-var createSearchTermSpaced = function () {
+var createSearchTermSpaced  = function () {
     for (var i = 3; i < process.argv.length; i++) {
         searchSpaced += process.argv[i] + " ";
     }
-    console.log(searchSpaced);
+    // console.log(searchSpaced);
 };
-var logMovieData = function (response) {
+var logMovieData            = function (response) {
     liriResponse = "-------------------- Response --------------------\r\nTitle: " + response.data.Title + "\r\nYear released: " + response.data.Year + "\r\nIMDB Rating: " + response.data.imdbRating + "\r\nRotten Tomatoes: " + response.data.Ratings[1].Value + "\r\nCountry produced: " + response.data.Country + "\r\nLanguage: " + response.data.Language + "\r\nPlot: " + response.data.Plot + "\r\nActors: " + response.data.Actors + "\r\n----------------------- End ----------------------";
     console.log(liriResponse);
     fs.appendFile("log.txt", liriResponse, function (err) {
         if (err) {
             console.log(err);
         } else {
-            console.log("Content added to log.txt")
+            // console.log("Content added to log.txt")
         }
     })
 };
-var concertThis = function () {
+var concertThis             = function () {
     console.log(bandsUrl);
     axios
         .get(bandsUrl)
@@ -52,14 +52,14 @@ var concertThis = function () {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log("Content added to log.txt")
+                        // console.log("Content added to log.txt")
                     }
                 })
             }
             console.log("----------------------- End ----------------------")
         });
 };
-var spotifyThis = function () {
+var spotifyThis             = function () {
     // node liri.js spotify-this-song '<song name here>'
     if (searchSpaced) {
         spotify.search({ type: 'track', query: searchSpaced, limit: 10 }, function (err, data) {
@@ -75,7 +75,7 @@ var spotifyThis = function () {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log("Content added to log.txt")
+                        // console.log("Content added to log.txt")
                     }
                 })
             }
@@ -96,7 +96,7 @@ var spotifyThis = function () {
         });
     };
 };
-var movieThis = function () {
+var movieThis               = function () {
     // node liri.js movie-this '<movie name here>'
     if (searchTerm) {
         axios
@@ -114,7 +114,7 @@ var movieThis = function () {
     };
 
 };
-var doIt = function () {
+var doIt                    = function () {
     // node liri.js do-what-it-says
     // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
@@ -154,25 +154,25 @@ moment().format();
 createSearchTerm();
 createSearchTermSpaced();
 
-var bandsUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
-var movieUrl = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced
+var bandsUrl    = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+var movieUrl    = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchSpaced
 var mrNobodyUrl = "http://www.omdbapi.com/?apikey=trilogy&t=mr.nobody"
 
 switch (command) {
     case "concert-this":
-        concertThis();
-        break;
+          concertThis();
+          break;
     case "spotify-this-song":
-        spotifyThis();
-        break;
+          spotifyThis();
+          break;
     case "movie-this":
-        movieThis();
-        break;
+          movieThis();
+          break;
     case "do-what-it-says":
-        doIt();
-        break;
+          doIt();
+          break;
     default:
-        console.log("Input is in incorrect format");
+          console.log("Input is in incorrect format");
 };
 
 
