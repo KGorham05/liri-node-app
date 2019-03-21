@@ -75,7 +75,7 @@ into the terminal. LIRI calls the spotify-this-song command with the argument "s
 
 In addition to printing the response to the console, LIRI also logs it's responses to a text file called log.txt.
 
-[![Image from Gyazo](https://i.gyazo.com/6445b39ade5479711a1a7ce9fa5ab3bc.gif)](https://i.gyazo.com/6445b39ade5479711a1a7ce9fa5ab3bc.gif)
+[![Image from Gyazo](https://i.gyazo.com/4cd768ab6e61b3b5b907d0b8e5de627b.gif)](https://gyazo.com/4cd768ab6e61b3b5b907d0b8e5de627b)
 
 ## More Info
 
